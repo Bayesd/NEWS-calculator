@@ -2,17 +2,17 @@ MAX_LAT = 90
 MIN_LAT = -90
 MAX_LONG = 180
 MIN_LONG = -180
-DEFAULT_NEWS_VALUE = 2
+DEFAULT_NEWS_VALUE = 2000
 
 
 def calculate_value_for_north_or_south(lat):
     if lat > 0:
-        north_value_percentage = ((lat + abs(MIN_LAT)) / (MAX_LAT * 2))
+        north_value_percentage = ((abs(MIN_LAT) + lat) / (MAX_LAT * 2))
         north_value = north_value_percentage * (DEFAULT_NEWS_VALUE * 2)
         south_value = (DEFAULT_NEWS_VALUE * 2) - north_value
         return north_value, south_value
     elif lat < 0:
-        south_value_percentage = ((lat + abs(MIN_LAT)) / (MAX_LAT * 2))
+        south_value_percentage = ((abs(MIN_LAT) - lat) / (MAX_LAT * 2))
         south_value = south_value_percentage * (DEFAULT_NEWS_VALUE * 2)
         north_value = (DEFAULT_NEWS_VALUE * 2) - south_value
         return [north_value, south_value]
@@ -22,12 +22,12 @@ def calculate_value_for_north_or_south(lat):
 
 def calculate_value_for_east_and_west(long):
     if long > 0:
-        east_value_percentage = ((long + abs(MIN_LAT)) / (MAX_LONG * 2))
+        east_value_percentage = ((abs(MIN_LONG) + long) / (MAX_LONG * 2))
         east_value = east_value_percentage * (DEFAULT_NEWS_VALUE * 2)
         west_value = (DEFAULT_NEWS_VALUE * 2) - east_value
         return east_value, west_value
     elif long < 0:
-        west_value_percentage = ((long + abs(MIN_LAT)) / (MAX_LONG * 2))
+        west_value_percentage = ((abs(MIN_LONG) - long) / (MAX_LONG * 2))
         west_value = west_value_percentage * (DEFAULT_NEWS_VALUE * 2)
         east_value = (DEFAULT_NEWS_VALUE * 2) - west_value
         return [east_value, west_value]
@@ -64,10 +64,8 @@ def get_longitude_input():
 
 def generate_news_values_from_input():
     print("Go to latlong.net and enter the origin of your character or the creator of the character")
-    latitude = get_latitude_input()
-    longitude = get_longitude_input()
-    north_and_south_values = calculate_value_for_north_or_south(latitude)
-    east_and_west_values = calculate_value_for_east_and_west(longitude)
+    north_and_south_values = calculate_value_for_north_or_south(get_latitude_input())
+    east_and_west_values = calculate_value_for_east_and_west(get_longitude_input())
     attack_values = order_news_list(north_and_south_values, east_and_west_values)
     print(
         f"North:\t{attack_values[0]}\nEast:\t{attack_values[1]}\nWest:\t{attack_values[2]}\nSouth:\t{attack_values[3]}")
