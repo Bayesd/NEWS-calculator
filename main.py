@@ -4,9 +4,6 @@ MAX_LONG = 180
 MIN_LONG = -180
 DEFAULT_NEWS_VALUE = 2
 
-north_and_south_max_value = DEFAULT_NEWS_VALUE * 2
-west_and_east_max_value = DEFAULT_NEWS_VALUE * 2
-
 
 def calculate_value_for_north_or_south(lat):
     if lat > 0:
